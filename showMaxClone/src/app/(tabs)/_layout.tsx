@@ -8,6 +8,7 @@ import {Feather, Octicons, MaterialCommunityIcons} from '@expo/vector-icons';
 import {StyleSheet, Text} from "react-native"
 import { tabBarColors, tabBarIconStyles } from '@/src/styles/colors';
 import { tabBarLabel, inactiveLabel } from '@/src/components/tabBarLabel';
+import { Image } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -35,7 +36,10 @@ tabBarLabel: ({ focused }) => {
 }}
 />
 <Tab.Screen  name='Profile' component={Profile} options={{
-tabBarIcon: ({ focused }) => <MaterialCommunityIcons name='account'  color = { focused ? "#fff" : "gray"} style = {styles.iconStyles}/>,
+tabBarIcon: ({ focused }) => <Image source={{uri:"https://cdn.pixabay.com/photo/2014/03/25/15/23/user-296686_1280.png"} }  height={10} width={10}
+
+style = {styles.imageStyle}
+/>,
 tabBarActiveTintColor:"red",
 
 tabBarLabel: ({ focused }) => {
@@ -70,5 +74,14 @@ const styles = StyleSheet.create({
    unfocusedIcon:{
       color:"#66635b",
       fontSize:24
+   },
+   imageStyle:{
+      height:30,
+      width:30,
+      position:"absolute",
+      top:23, 
+      objectFit:"contain",
+      backgroundColor:"#4f5352",
+      borderRadius:30
    }
 });
