@@ -1,10 +1,10 @@
-
 import React, { useState, useRef, useEffect } from 'react';
-
 import { View, Text, FlatList, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
 
-const HeaderComp = ({ data }) => {
-  const flatListRef = useRef(null);
+
+
+const HeaderComp = ({ data }:any) => {
+  const flatListRef:any = useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
@@ -64,13 +64,13 @@ const HeaderComp = ({ data }) => {
             });
           });
         }}
-        onViewableItemsChanged={({ viewableItems }) => {
+        onViewableItemsChanged={({ viewableItems } : any) => {
           if (viewableItems.length > 0) {
             setCurrentPage(viewableItems[0].index);
           }
         }}
       />
-      <View style={styles.pagination}>{data.map((_, index) => renderDot(index))}</View>
+      <View style={styles.pagination}>{data.map((_ : any, index : number) => renderDot(index))}</View>
     </View>
   );
 };

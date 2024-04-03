@@ -11,6 +11,8 @@ import Section from "./section";
 import { FA5Style } from "@expo/vector-icons/build/FontAwesome5";
 import HorizontalScrollWithDots from "./pagination";
 import HeaderComp from "./flatlistHeader";
+import FooterComps from "./flatlistFooter";
+import Dev from "./devember";
 
 const img =  "https://images.unsplash.com/photo-1707343848873-d6a834b5f9b9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 export const dummy = [
@@ -94,120 +96,21 @@ export const dummy = [
     }
   ]
 
-
-  const image1 = "https://images.unsplash.com/photo-1707343848873-d6a834b5f9b9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  const image2 = "https://images.unsplash.com/photo-1707343848873-d6a834b5f9b9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  const image3 = "https://images.unsplash.com/photo-1707343848873-d6a834b5f9b9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-  const image4 = "https://images.unsplash.com/photo-1707343848873-d6a834b5f9b9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-
-
-  const HeaderComps = () => {
-  const [currentPage, setCurrentPage] = useState(0);
   
-  const renderDot = (index) => {
-    return (
-      <TouchableOpacity
-        key={index}
-        style={[styles.dot, currentPage === index && styles.activeDot]}
-        onPress={() => setCurrentPage(index)}
-      />
-    );
-  };
-
-  const renderItem = ({item}) => (
-   
-    <View style = {{backgroundColor:"blue",  }}>
-      <ImageBackground source={{uri:item.img}}  resizeMode="cover" style = {styles.img}>
-      <Text style = {styles.title}>{item.title}</Text>
-      <Text style = {styles.desc}>{item.desc}</Text>
-      </ImageBackground>
-    </View>
-  )
-  return (
-    <View>
-      <FlatList
-        data={dummy}
-        renderItem={renderItem}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        onScroll={(event) => {
-          const page = Math.round(
-            event.nativeEvent.contentOffset.x / event.nativeEvent.layoutMeasurement.width
-          );
-          setCurrentPage(page);
-        }}
-      />
-      <View style={styles.pagination}>{dummy.map((_, index) => renderDot(index))}</View>
-    </View>
-  );
-}
-
   
-
-
-
-
-
-const FooterComps = () => {
-
-  const [newi, setNewi] = useState(0);
-  
-  const renderSectionItem = ({ item, section}) => {
-    let imageStyle = {
-      width: section.title === 'Browse By Genre' ? 100 : 250,
-      height: section.title === 'Browse By Genre' ? 100 : 120,
-      borderRadius: section.title === 'Browse By Genre' ? 5 : 10,
-    };
-
-    return (
-      <View style={{ margin: 5 }}>
-        <Image source={{ uri: item }} style={imageStyle} />
-      </View>
-    );
-  };
-
-  const renderSectionHeader = ({ section: {title, data } }) => (
-    <View>
-      <Text style={{ color: '#fff' }}>{title}</Text>
-      <FlatList
-        data={data}
-        renderItem={({item}) => renderSectionItem({item, section:{title}})}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-       
-      />
-    </View>
-  );
-
-  return (
-    <View>
-      <View style={{ margin: 10 }}>
-     
-      </View>
-      <SectionList
-        sections={sec}
-        renderSectionHeader={renderSectionHeader}
-        keyExtractor={(item, index) => index.toString()}
-        showsVerticalScrollIndicator={false}
-        renderItem={() => null}
-      />
-    </View>
-  );
-};
-
 
 
 
 const TrialCom = () => {
 
     return(
-    <SafeAreaView>
-     
-      <SectionList  ListHeaderComponent={() => <HeaderComp data={dummy}/>} sections={sec}  renderItem={() => null
+    <SafeAreaView style = {{}}>
+    
+      <SectionList   ListHeaderComponent={() => <Dev data={dummy}/>} sections={sec}  renderItem={() => null
       }
-      ListFooterComponent={FooterComps} 
-      />
+      ListFooterComponent={ () => <FooterComps sec={sec}/> } 
+      showsVerticalScrollIndicator = {false} />
+   
     </SafeAreaView>
     )
 }

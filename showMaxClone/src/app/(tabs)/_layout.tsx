@@ -19,18 +19,27 @@ const Tab = createBottomTabNavigator();
 
 export default function TabLayout(){
    return(
-<Tab.Navigator  screenOptions={{headerShown:false, tabBarStyle:{borderRadius:50,  position: "absolute", backgroundColor:"#403d39", marginBottom:20, opacity:0.8, width:"95%",height:70 } }}>
+<Tab.Navigator  screenOptions={{headerShown:false, 
+tabBarStyle:{borderRadius:50,  position: "absolute", backgroundColor:"#403d39", marginBottom:20, opacity:0.8, width:"95%",height:70 },
+
+
+}}>
 <Tab.Screen name = "Home" component={HomeScreen}   options={{
 tabBarIcon: ({ focused }) => <MaterialCommunityIcons name= { focused ? "home" : "home-outline"}   color = {focused ? "#fff" : "gray"} style = { styles.iconStyles}/>,
-
 tabBarLabel: ({ focused }) => {
    return focused ? <Text style = {[styles.label, {fontWeight:"bold", }]}>{tabBarLabel}</Text> : <Text>{inactiveLabel}</Text>;
  },
+
  headerShown: true,
  headerTransparent:true,
+ 
  headerTitle: ()  =>
-    <Header/>
- }}/>
+    <Header   />,
+   
+ }}
+ 
+ />
+
 <Tab.Screen  name='Search' component={SearchScreen} options={{
 tabBarIcon: ({focused}) =><Feather name="search"   color = { focused ? "#fff" : "gray"}  style = {styles.iconStyles} />,
 tabBarLabel: ({ focused }) => {

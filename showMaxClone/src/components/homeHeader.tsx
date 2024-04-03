@@ -2,7 +2,7 @@ import {View, Text, StyleSheet} from "react-native"
 const Header = () => {
 
     return(
-<View style = {{flexDirection:"row", gap:10,}}>
+<View style = {{flexDirection:"row", gap:10, }}>
 <Text style = {styles.header}>Movies</Text>
 <Text style = {styles.header}>Tv</Text>
 <Text style = {styles.header}>Sport</Text>
@@ -20,6 +20,8 @@ const styles = StyleSheet.create({
     header:{
         color:"#fff",
         fontWeight:"300",
-        fontSize:20
+        fontSize:20,
+        
+     
     }
 })
