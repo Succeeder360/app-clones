@@ -10,9 +10,9 @@ const FooterComps = ({data}) => {
     const [newi, setNewi] = useState(0);
     const renderSectionItem = ({item, section}) => {
       let imageStyle = {
-        width: section.title === 'Browse By Genre' ? 100 : 250,
-        height: section.title === 'Browse By Genre' ? 100 : 120,
-        borderRadius: section.title === 'Browse By Genre' ? 5 : 10,
+        width: section.title === 'Popular Brand' ? 100 : 250,
+        height: section.title === 'Popular Brand' ? 100 : 120,
+        borderRadius: section.title === 'Popular Brand' ? 5 : 10,
       };
   
       return (
@@ -23,8 +23,8 @@ const FooterComps = ({data}) => {
     };
   
     const renderSectionHeader = ({ section: {title, data } }) => (
-      <View>
-        <Text style={{color:'#fff'}}>{title}</Text>
+      <View style = {{gap:15, top:30}}>
+        <Text style={{color:'#fff',  left:13, top:6}}>{title}</Text>
         <FlatList
           data={data}
           renderItem={({item}) => renderSectionItem({item, section:{title}})}
@@ -36,10 +36,7 @@ const FooterComps = ({data}) => {
     );
   
     return (
-      <View>
-        <View style={{ margin: 10 }}>
-       
-        </View>
+      <View style ={{gap:4}}>
         <SectionList
           sections={data}
           renderSectionHeader={renderSectionHeader}

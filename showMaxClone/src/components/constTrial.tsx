@@ -5,6 +5,7 @@ import {useQuery}  from '@tanstack/react-query'
 import Dev from "./devember";
 import {fetchTopRatedMovies} from "../services/movieApi";
 import { MovieDBImageRetrieval } from "../services/retrivaImg";
+import SlideItem from "./slideItem";
 
 
 const TrialCom = () => {
@@ -17,37 +18,37 @@ const TrialCom = () => {
   const sec = [
     {
      
-      title:"Top 20 Movies",
+      title:"Showmax Originals",
       data:data
       
     },
     {
      
-      title:"Trending",
+      title:" West Home Trending",
       data:data,
      
     },
     {
      
-      title:"Top Local Movies",
+      title:"Recently Added Series",
       data:data,
       
     },
     {
    
-      title:"Must Watch Match",
+      title:"Recently Added Movies",
       data:data,
       
     },
     {
    
-      title:"Movies AtoZ",
+      title:"Must See Premier",
       data:data,
      
     },
     {
    
-      title:"Comedy",
+      title:"New Releases",
       data:data,
       
     },
@@ -71,7 +72,37 @@ const TrialCom = () => {
     },
     {
    
-      title:"Browse By Genre",
+      title:"Best of Rotten Tomatos",
+      data:data,
+     
+    },
+    {
+   
+      title:"Best of Africa",
+      data:data,
+     
+    },
+    {
+   
+      title:"Showmax Collections",
+      data:data,
+     
+    },
+    {
+   
+      title:"Thrills $ Chills",
+      data:data,
+     
+    },
+    {
+   
+      title:"Drama",
+      data:data,
+     
+    },
+    {
+   
+      title:"Popular Brand",
       data:data,
      
     }
@@ -79,26 +110,14 @@ const TrialCom = () => {
   
 
 
-  const SlideItem = () => {
-    return(
-      <FlatList data={data} renderItem={({item}) => (
-        <Image source={{uri:`${MovieDBImageRetrieval}${item.poster_path}`}} height={400} width={430}/>
-        
-      )}
-      horizontal
-      showsHorizontalScrollIndicator = {false}/>
-    )
-  }
-
-
 
 
 if(isLoading) return <Text style = {{color:"#fff"}}>loading...</Text>
 if(error) return <Text style = {{color:"#fff"}}>Opps</Text>
-    return(
 
+    return(
     <SafeAreaView style = {{}}>
-      <SectionList   ListHeaderComponent={() => <SlideItem/>} sections={sec}  renderItem={() => null
+      <SectionList   ListHeaderComponent={() => <SlideItem data={data}/>} sections={sec}  renderItem={() => null
       }
       ListFooterComponent={ () => <FooterComps data={sec}/> } 
       showsVerticalScrollIndicator = {false} />

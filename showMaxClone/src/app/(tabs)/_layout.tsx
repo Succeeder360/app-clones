@@ -30,7 +30,7 @@ tabBarLabel: ({ focused }) => {
    return focused ? <Text style = {[styles.label, {fontWeight:"bold", }]}>{tabBarLabel}</Text> : <Text>{inactiveLabel}</Text>;
  },
 
- headerShown: true,
+ headerShown:true,
  headerTransparent:true,
  
  headerTitle: ()  =>
