@@ -1,122 +1,112 @@
-import {View, Text, FlatList, Image,ImageBackground, StyleSheet, SectionList, TouchableOpacity} from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useRef, useState } from "react";
-import SlideItem from "../containers/reuseable";
-import { movieType } from "../types/movieTypes";
-import Pagination from "./pagination";
-import { Dimensions } from "react-native";
-import Header from "./homeHeader";
-import FlatListHeader from "../containers/reuseable";
-import Section from "./section";
-import { FA5Style } from "@expo/vector-icons/build/FontAwesome5";
-import HorizontalScrollWithDots from "./pagination";
-import HeaderComp from "./flatlistHeader";
+import {Text,StyleSheet,SectionList, View, FlatList, Image} from "react-native"
+import { SafeAreaView,  } from "react-native-safe-area-context";
 import FooterComps from "./flatlistFooter";
+import {useQuery}  from '@tanstack/react-query'
 import Dev from "./devember";
+import {fetchTopRatedMovies} from "../services/movieApi";
+import { MovieDBImageRetrieval } from "../services/retrivaImg";
 
-const img =  "https://images.unsplash.com/photo-1707343848873-d6a834b5f9b9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-export const dummy = [
-    {
-    img: "https://images.unsplash.com/photo-1707343848873-d6a834b5f9b9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title:"Biograpghy",
-    desc: "watch now and enjoy",
-    id:"1"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1707343848873-d6a834b5f9b9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title:"Horror",
-    desc: "happ treats",
-    id:"2"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1707343848873-d6a834b5f9b9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title:"School",
-    desc: "hsve fun you all",
-    id:"3"
-  },
-  {
-    img: "https://images.unsplash.com/photo-1707343848873-d6a834b5f9b9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title:"Biograpghy",
-    desc: "watch now and enjoy",
-    id:"4"
-  },
-  ]
-  
+
+const TrialCom = () => {
+ 
+  const {data, isLoading, error} = useQuery({
+  queryKey:["movies"],
+  queryFn:fetchTopRatedMovies
+  })
+
   const sec = [
     {
      
       title:"Top 20 Movies",
-      data:[img, img, img, img]
+      data:data
+      
     },
     {
      
       title:"Trending",
-      data:[img, img, img, img]
+      data:data,
+     
     },
     {
      
       title:"Top Local Movies",
-      data:[img, img, img, img]
+      data:data,
+      
     },
     {
    
       title:"Must Watch Match",
-      data:[img, img, img, img]
+      data:data,
+      
     },
     {
    
       title:"Movies AtoZ",
-      data:[img, img, img, img]
+      data:data,
+     
     },
     {
    
       title:"Comedy",
-      data:[img, img, img, img]
+      data:data,
+      
     },
     {
    
       title:"Top African Movies",
-      data:[img, img, img, img]
+      data:data
     },
  
     {
    
       title:"Award-Winnig Films",
-      data:[img, img, img, img]
+      data:data,
+      
     },
     {
    
       title:"Horror",
-      data:[img, img, img, img]
+      data:data,
+      
     },
     {
    
       title:"Browse By Genre",
-      data:[img, img, img, img]
+      data:data,
+     
     }
   ]
-
-  
   
 
 
-
-const TrialCom = () => {
-
+  const SlideItem = () => {
     return(
+      <FlatList data={data} renderItem={({item}) => (
+        <Image source={{uri:`${MovieDBImageRetrieval}${item.poster_path}`}} height={400} width={430}/>
+        
+      )}
+      horizontal
+      showsHorizontalScrollIndicator = {false}/>
+    )
+  }
+
+
+
+
+if(isLoading) return <Text style = {{color:"#fff"}}>loading...</Text>
+if(error) return <Text style = {{color:"#fff"}}>Opps</Text>
+    return(
+
     <SafeAreaView style = {{}}>
-    
-      <SectionList   ListHeaderComponent={() => <Dev data={dummy}/>} sections={sec}  renderItem={() => null
+      <SectionList   ListHeaderComponent={() => <SlideItem/>} sections={sec}  renderItem={() => null
       }
-      ListFooterComponent={ () => <FooterComps sec={sec}/> } 
+      ListFooterComponent={ () => <FooterComps data={sec}/> } 
       showsVerticalScrollIndicator = {false} />
-   
     </SafeAreaView>
     )
 }
 
 export default TrialCom;
-
 
 
 const styles = StyleSheet.create({

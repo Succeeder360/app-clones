@@ -1,34 +1,28 @@
-import {View, Animated, Text, StyleSheet, ImageBackground, Dimensions} from "react-native"
+import {StyleSheet,Dimensions,Image} from "react-native"
+import { MovieDBImageRetrieval } from "../services/retrivaImg";
+
 
 const {width} = Dimensions.get("window");
 
-const SlideItem = ({item}) => {
-    
-       return(
-       <View style = {styles.container}>
-      <ImageBackground source={{uri:item.img}}  resizeMode="cover" style = {styles.img}>
-       <View style = {styles.content}>
-       <Text style = {styles.title}>{item.title}s</Text>
-       <Text style = {styles.desc}>{item.desc}</Text>
-       </View>
-      </ImageBackground>
-       </View>
-       )
-   }
+
+ export const SlideItem = ({item}) => {
+    return(
+        <Image source={{uri:`${MovieDBImageRetrieval}${item.poster_path}`}} height={400} width={300}/>
+    )
+  }
+
 
    export default SlideItem;
+
    const styles = StyleSheet.create({
     container:{
-      flex:1,    
-    },
-    content:{
-        
+      flex:1,  
     },
     img:{
-       
        height:400,
        width,
-       justifyContent:"center"  
+     backgroundColor: 'rgba(0,0,0,0.5)'
+
     },
     title:{
         color: 'white',

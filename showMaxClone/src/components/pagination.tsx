@@ -1,10 +1,12 @@
 import {View, Text, StyleSheet, Animated, Dimensions} from "react-native"
 import React, { useState } from "react";
 
-const {width, height} = Dimensions.get("screen")
+
+
+const {width} = Dimensions.get("screen")
 const Pagination = ({data, scrollX, index}) => {
 
-    
+
     return (
         <View style = {styles.container}>
           {data.map((_,idx) => {
@@ -46,9 +48,7 @@ const styles = StyleSheet.create({
         gap:4,
         justifyContent:"center",
         alignItems:"center",
-        top:13,
-        
-       
+        top:13,    
     },
 
 dot:{

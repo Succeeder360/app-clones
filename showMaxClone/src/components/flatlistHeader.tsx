@@ -1,8 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, FlatList, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
 
-
-
 const HeaderComp = ({ data }:any) => {
   const flatListRef:any = useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
@@ -22,8 +20,7 @@ const HeaderComp = ({ data }:any) => {
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
       <ImageBackground source={{uri:item.img}} resizeMode="cover" style={styles.img}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.desc}>{item.desc}</Text>
+        
       </ImageBackground>
     </View>
   );
@@ -33,7 +30,7 @@ const HeaderComp = ({ data }:any) => {
       <TouchableOpacity
         key={index}
         style={[styles.dot, currentPage === index && styles.activeDot]}
-        onPress={() => {
+        onPress={ () => {
           flatListRef.current.scrollToIndex({ animated: true, index });
           setCurrentPage(index);
         }}
