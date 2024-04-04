@@ -1,13 +1,8 @@
-import { useState,  } from "react";
 import {View, Text, Image, FlatList, SectionList} from "react-native"
-import { useQuery } from "@tanstack/react-query";
-import { fetchTopRatedMovies } from "../services/movieApi";
 import { MovieDBImageRetrieval } from "../services/retrivaImg";
 
 
 const FooterComps = ({data}) => {
-
-    const [newi, setNewi] = useState(0);
     const renderSectionItem = ({item, section}) => {
       let imageStyle = {
         width: section.title === 'Popular Brand' ? 100 : 250,
@@ -24,13 +19,12 @@ const FooterComps = ({data}) => {
   
     const renderSectionHeader = ({ section: {title, data } }) => (
       <View style = {{gap:15, top:30}}>
-        <Text style={{color:'#fff',  left:13, top:6}}>{title}</Text>
+        <Text style={{color:'#fff', left:13, top:6}}>{title}</Text>
         <FlatList
           data={data}
           renderItem={({item}) => renderSectionItem({item, section:{title}})}
           horizontal
           showsHorizontalScrollIndicator={false}
-         
         />
       </View>
     );
@@ -47,5 +41,7 @@ const FooterComps = ({data}) => {
       </View>
     );
   };
+  
+
   
   export default FooterComps;

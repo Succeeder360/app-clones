@@ -5,8 +5,6 @@ import { scrollFunction } from "./onscroll";
 import { useState, useEffect, useRef } from "react";
 
 
-
-
 const {width} = Dimensions.get("window");
 
 const SlideItem = ({data}) => {
@@ -14,22 +12,25 @@ const SlideItem = ({data}) => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const flatListRef:any = useRef(null);
     const [currentPage, setCurrentPage] = useState(0);
-  
+    const [isScrolling, setIsScrolling] = useState(false);
+
     useEffect(() => {
-      if (data && data.length > 0) {
-        const intervalId = setInterval(() => {
-          const nextPage = (currentPage + 1) %  data.length;
-          if (nextPage === 0) {
-            setCurrentPage(0);
-          } else {
-            setCurrentPage(nextPage);
-          }
-          flatListRef.current.scrollToIndex({ animated: true, index: nextPage });
-        }, 5000);
-  
-        return () => clearInterval(intervalId);
-      }
-    }, [currentPage, data]);
+        if (data && data.length > 0) {
+          const intervalId = setInterval(() => {
+            if (!isScrolling) {
+              let nextPage = (currentPage + 1) % data.length;
+              if (nextPage === 0) {
+                setCurrentPage(0); // Reset currentPage to 0 if it's the last index
+              } else {
+                setCurrentPage(nextPage);
+              }
+              flatListRef.current.scrollToIndex({ animated: true, index: nextPage });
+            }
+          }, 4000);
+    
+          return () => clearInterval(intervalId);
+        }
+      }, [currentPage, data, isScrolling]);
 
  const handleOnscroll = event => {
     Animated.event(
@@ -54,7 +55,7 @@ const SlideItem = ({data}) => {
         itemVisiblePercentThreshold:50 // percentage for next slide to be visible
     }).current;
 
-    const handleViewAbleItemChange = useRef(({ viewableItems }) => {
+    const handleViewAbleItemChange = useRef(({viewableItems}) => {
         if (viewableItems.length > 0) {
           setIndex(viewableItems[0].index);
         }
