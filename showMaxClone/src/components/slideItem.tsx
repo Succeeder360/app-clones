@@ -2,8 +2,9 @@ import {StyleSheet,Dimensions,Image, FlatList, Animated} from "react-native"
 import { MovieDBImageRetrieval } from "../services/retrivaImg";
 import Pagination from "./pagination";
 import { scrollFunction } from "./onscroll";
-import { useState, useEffect, useRef } from "react";
-
+import { useState, useEffect, useRef, memo } from "react";
+import {View} from "react-native"
+import React from "react";
 
 const {width} = Dimensions.get("window");
 
@@ -31,6 +32,14 @@ const SlideItem = ({data}) => {
           return () => clearInterval(intervalId);
         }
       }, [currentPage, data, isScrolling]);
+
+
+      const renderItem = (({item}) => (
+        <View>
+      <Image source={{uri:`${MovieDBImageRetrieval}${item.poster_path}`}} style = {styles.img}/>
+        </View>
+      ))
+
 
  const handleOnscroll = event => {
     Animated.event(
@@ -61,13 +70,16 @@ const SlideItem = ({data}) => {
         }
       }).current;
 
+      const handleScrollEnd = () => {
+        setIsScrolling(false); // Set scrolling flag to false when manual scrolling ends
+      };    
+
     return(
         <>
-      <FlatList data={data} renderItem={({item}) => (
-        <Image source={{uri:`${MovieDBImageRetrieval}${item.poster_path}`}} style = {styles.img}/>
-      )}
+      <FlatList data={data} renderItem={renderItem}
       horizontal 
       pagingEnabled 
+      onScrollEndDrag={handleScrollEnd}
       ref={flatListRef}
       showsHorizontalScrollIndicator = {false}
       onScroll={handleOnscroll}
@@ -83,7 +95,6 @@ const SlideItem = ({data}) => {
   }
 
 
-
    export default SlideItem;
 
    const styles = StyleSheet.create({
@@ -93,7 +104,7 @@ const SlideItem = ({data}) => {
     img:{
        height:400,
        width,
-     backgroundColor: 'rgba(0,0,0,0.5)'
+       backgroundColor: 'rgba(52, 52, 52, 0.8)'
 
     },
     title:{

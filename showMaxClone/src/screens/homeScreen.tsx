@@ -1,17 +1,15 @@
-import { View } from "react-native";
-import Download from "../components/Download";
-import Home from "../components/Home";
 import TrialCom from "../components/constTrial";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import AnotherTrial from "../components/devember";
 
 const queryClient = new QueryClient()
 
 export default function  HomeScreen(){
     return(
-        <SafeAreaView>
+        <SafeAreaView style = {{}}>
         <QueryClientProvider client={queryClient}>
-        <TrialCom />
+        <AnotherTrial />
         </QueryClientProvider>
         </SafeAreaView>
     )

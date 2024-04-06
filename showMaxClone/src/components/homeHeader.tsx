@@ -2,7 +2,7 @@ import {View, Text, StyleSheet} from "react-native"
 const Header = () => {
 
     return(
-<View style = {{flexDirection:"row", gap:10, }}>
+<View style = {{flexDirection:"row", gap:20, }}>
 <Text style = {styles.header}>Movies</Text>
 <Text style = {styles.header}>Tv</Text>
 <Text style = {styles.header}>Sport</Text>

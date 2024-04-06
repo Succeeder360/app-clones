@@ -1,3 +1,4 @@
+import { useState,  } from "react";
 import {View, Text, Image, FlatList, SectionList} from "react-native"
 import { MovieDBImageRetrieval } from "../services/retrivaImg";
 
@@ -41,7 +42,5 @@ const FooterComps = ({data}) => {
       </View>
     );
   };
-  
-
   
   export default FooterComps;

@@ -1,104 +1,167 @@
-import {View,StyleSheet, FlatList,Dimensions} from "react-native"
-import { Animated } from "react-native";
-import {useRef, useState, useEffect } from "react";
-import Pagination from "./pagination";
-import SlideItem from "./slideItem";
-import { scrollFunction } from "./onscroll";
+import { useQuery } from "@tanstack/react-query";
+import {View, Text, StyleSheet, Image, FlatList} from "react-native"
+import { SafeAreaView } from "react-native-safe-area-context";
+import { fetchTopRatedMovies } from "../services/movieApi";
+import { MovieDBImageRetrieval } from "../services/retrivaImg";
 
 
-const {width} = Dimensions.get("window");
 
-const Dev = ({data}) => {
- 
-    const scrollX = useRef(new Animated.Value(0)).current;
-    const flatListRef:any = useRef(null);
-    const [currentPage, setCurrentPage] = useState(0);
-  
-    useEffect(() => {
-      if (data && data.length > 0) {
-        const intervalId = setInterval(() => {
-          const nextPage = (currentPage + 1) %  data.length;
-          flatListRef.current.scrollToIndex({ animated: true, index: nextPage });
-          setCurrentPage(nextPage);
-        }, 5000); 
-        
-        return () => clearInterval(intervalId);
-      }
-    }, [currentPage, data]);
- 
+const AnotherTrial = () => {
 
- const handleOnscroll = event => {
-    Animated.event(
-        [{
-            nativeEvent:{
-                contentOffset:{
-                    x:scrollX
-                }
-            }
+  const {data, isLoading, error} = useQuery({
+        queryKey:["movies"],
+        queryFn:fetchTopRatedMovies
+    })
+
+    const sec = [
+        {
+        category:"Showmax Originals",
+          data:data,
+          mediaType: "series"
+          
+        },
+        {
+         
+         category:" West Home Trending",
+          data:data,
+          mediaType: "series"
+        },
+        {
+         
+          category:"Recently Added Series",
+          data:data,
+          mediaType: "series"
+          
+        },
+        {
+       
+          category:"Recently Added Movies",
+          data:data,
+          mediaType: "movies"
+          
+        },
+        {
+       
+          category:"Must See Premier",
+          data:data,
+          mediaType: "series"
+         
+        },
+        {
+       
+          category:"New Releases",
+          data:data,
+          mediaType: "series"
+          
+        },
+        {
+       
+          category:"Top African Movies",
+          data:data,
+          mediaType: "series"
+        },
+     
+        {
+          category:"Award-Winnig Films",
+          data:data,
+          mediaType: "series"
+        },
+        {
+       
+          category:"Horror",
+          data:data,
+          mediaType: "movies"
+          
+        },
+        {
+       
+          category:"Best of Rotten Tomatos",
+          data:data,
+          mediaType: "movies"
+         
+        },
+        {
+       
+          category:"Best of Africa",
+          data:data,
+          mediaType: "movies"
+         
+        },
+        {
+       
+          category:"Showmax Collections",
+          data:data,
+          mediaType: "series"
+         
+        },
+        {
+       
+          category:"Thrills $ Chills",
+          data:data,
+          mediaType: "series"
+         
+        },
+        {
+       
+          category:"Drama",
+          data:data,
+          mediaType: "movies"
+         
+        },
+        {
+       
+          category:"Popular Brand",
+          data:data,
+          mediaType: "movies"
+         
         }
-    ],
-       
-{
-    useNativeDriver:false
-}
-       
-    )(event)
-}
+      ]
+    
 
-    const [index, setIndex] = useState(0)
-    const handleViewabilityConfg = useRef({
-        itemVisiblePercentThreshold:50 // percentage for next slide to be visible
-    }).current;
-    const handleViewAbleItemChange = useRef(({viewableItems}) => {
-        setIndex(viewableItems[0].index)
-    }).current;
+   
+  
+    if(isLoading) return <Text style = {{color:"#fff"}}>loading...</Text>
+    if(error) return <Text style = {{color:"#fff"}}>Opps</Text>
 
-    return(
-        <View>
-         <FlatList data={data}
-          pagingEnabled 
-          ref={flatListRef}
-           horizontal  renderItem={({item}) => <SlideItem item={item} />}
-           snapToAlignment="center"
-           showsHorizontalScrollIndicator = {false}
-           keyExtractor={(item, index) => index.toString()}
-           onScroll={handleOnscroll}
-           onViewableItemsChanged={handleViewAbleItemChange}
-           viewabilityConfig={handleViewabilityConfg}
-           onScrollToIndexFailed={({index}) => {
-            scrollFunction({index}, flatListRef);
-        }}
-           />
-           <Pagination data={data} scrollX={scrollX} index={index}/>
+    return (
+        <SafeAreaView style = {styles.container}>
+         <FlatList 
+    
+    data={sec}
+    renderItem={({item}) => (
+        <View style={{ marginHorizontal: 10 }}>
+            <Text style={{color: "#fff", marginBottom: 5}}>{item.category}</Text>
+            <FlatList
+            horizontal
+                data={item.data}
+                renderItem={({item: movieOrSeries}) => (
+                    <View style={{ marginBottom: 10 }}>
+                       
+                        <Image
+                            style={{height: 150, width: 200}}
+                            source={{uri: `${MovieDBImageRetrieval}${movieOrSeries.poster_path}`}}
+                        />
+                    </View>
+                )}
+                keyExtractor={(movieOrSeries) => movieOrSeries.id.toString()}
+            />
         </View>
-    )
+    )}
+    keyExtractor={(item, index) => index.toString()}
+/>
+
+        </SafeAreaView>
+    );
 }
 
 
-
-export default Dev;
 
 const styles = StyleSheet.create({
     container:{
-      flex:1,    
-    },
-    content:{
+     
         
-    },
-    img:{
-       height:400,
-       width,
-       justifyContent:"center"  
-    },
-    title:{
-        color: 'white',
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    desc:{
-        color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center', 
-    },
-   
+        justifyContent:"center",
+        alignItems:"center"
+    }
 })
+export default AnotherTrial;

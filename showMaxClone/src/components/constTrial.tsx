@@ -1,116 +1,124 @@
-import {Text,StyleSheet,SectionList, View, FlatList, Image} from "react-native"
-import { SafeAreaView,  } from "react-native-safe-area-context";
+import {Text,StyleSheet,SectionList} from "react-native"
+import { SafeAreaView} from "react-native-safe-area-context";
 import FooterComps from "./flatlistFooter";
 import {useQuery}  from '@tanstack/react-query'
-import Dev from "./devember";
 import {fetchTopRatedMovies} from "../services/movieApi";
-import { MovieDBImageRetrieval } from "../services/retrivaImg";
 import SlideItem from "./slideItem";
 
 
 const TrialCom = () => {
- 
-  const {data, isLoading, error} = useQuery({
+ const {data, isLoading, error} = useQuery({
   queryKey:["movies"],
   queryFn:fetchTopRatedMovies
-  })
+ })
 
   const sec = [
     {
      
       title:"Showmax Originals",
-      data:data
+      data:data,
+      mediaType: "series"
       
     },
     {
      
       title:" West Home Trending",
       data:data,
-     
+      mediaType: "series"
     },
     {
      
       title:"Recently Added Series",
       data:data,
+      mediaType: "series"
       
     },
     {
    
       title:"Recently Added Movies",
       data:data,
+      mediaType: "movies"
       
     },
     {
    
       title:"Must See Premier",
       data:data,
+      mediaType: "series"
      
     },
     {
    
       title:"New Releases",
       data:data,
+      mediaType: "series"
       
     },
     {
    
       title:"Top African Movies",
-      data:data
+      data:data,
+      mediaType: "series"
     },
  
     {
    
       title:"Award-Winnig Films",
       data:data,
+      mediaType: "series"
       
     },
     {
    
       title:"Horror",
       data:data,
+      mediaType: "movies"
       
     },
     {
    
       title:"Best of Rotten Tomatos",
       data:data,
+      mediaType: "movies"
      
     },
     {
    
       title:"Best of Africa",
       data:data,
+      mediaType: "movies"
      
     },
     {
    
       title:"Showmax Collections",
       data:data,
+      mediaType: "series"
      
     },
     {
    
       title:"Thrills $ Chills",
       data:data,
+      mediaType: "series"
      
     },
     {
    
       title:"Drama",
       data:data,
+      mediaType: "movies"
      
     },
     {
    
       title:"Popular Brand",
       data:data,
+      mediaType: "movies"
      
     }
   ]
   
-
-
-
 
 if(isLoading) return <Text style = {{color:"#fff"}}>loading...</Text>
 if(error) return <Text style = {{color:"#fff"}}>Opps</Text>

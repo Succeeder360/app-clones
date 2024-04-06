@@ -14,3 +14,5 @@ export const fetchTopRatedMovies = async () => {
       throw new Error('Error fetching top rated movies');
     }
 }
+
+
