@@ -10,26 +10,6 @@ const scrollFunction = async (info, flatListRef) => {
 };
 
 
-const handleOnscroll = ({event, scrollX}) => {
-   
-    Animated.event(
-        [{
-            nativeEvent:{
-                contentOffset:{
-                    x:scrollX
-                }
-            }
-        }
-    ],
-       
-{
-    useNativeDriver:false
-}
-       
-    )(event)
 
 
-}
-
-
-export {scrollFunction, handleOnscroll};
+export {scrollFunction};

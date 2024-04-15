@@ -7,7 +7,7 @@ export const fetchTopRatedMovies = async () => {
     try {
       const response = await fetch(API_URL);
       const  data = await response.json();
-      console.log(data.results)
+     console.log(data.results)
        return data.results
        
     } catch (error) {

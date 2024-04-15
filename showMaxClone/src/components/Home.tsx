@@ -1,120 +1,70 @@
-import { View, Text, ImageBackground, FlatList, Image, StyleSheet, ScrollView, Dimensions, Animated } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useState, useRef } from "react";
-import SlideItem from "../containers/reuseable";
-import { dummy } from "./dummy";
-import Pagination from "./pagination";
-
-const {width, height} = Dimensions.get("screen")
-
-const  Home = () => {
-
-  const [index, setIndex] = useState(0)
- const viewabilityConfig = useRef({
-  itemVisiblePercentThreshold:50  // visible slide percent
- }).current
+import { useQuery } from "@tanstack/react-query";
+import {View, Text, StyleSheet, Image, FlatList, ActivityIndicator} from "react-native"
+import { fetchTopRatedMovies } from "../services/movieApi";
+import { MovieDBImageRetrieval } from "../services/retrivaImg";
+import { Sec } from "./dummy";
+import FlatlistHeader from "./flatlistHeader";
 
 
-  const handleOnviewAbleItemChange = useRef(({viewableItems})=> {
-    setIndex(viewableItems[0].index)
-  }).current
-  const scrollX = useRef(new Animated.Value(0)).current;
+  const Home = () => {
 
-   const handleOnscroll = event => {
-    Animated.event([
-      {
-        nativeEvent: {
-          contentOffset:{
-            x:scrollX,
-          }
-        }
-      }
-    ],
-    {useNativeDriver:false}
-    
-    )(event)
-   }
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["movies"],
+        queryFn: fetchTopRatedMovies
+    });
 
-  const renderItem = ({item, index}) => (
-    <SafeAreaView style = {{flex:1}}>
-    <View style = {{backgroundColor:"blue",  justifyContent:"center", alignItems:"center"}}>
-      <ImageBackground source={{uri:item.img}}  resizeMode="cover" style = {styles.img}>
-      <Text style = {styles.title}>{item.title}</Text>
-      <Text style = {styles.desc}>{item.desc}</Text>
-      </ImageBackground>
-     
-    </View>
-    </SafeAreaView>
-  )
+    const updatedSec = Sec.map(item => {
+      return {
+          ...item,
+          data: data 
+      };
+  });   
 
-    return(
-      <SafeAreaView style = {{flex:1, backgroundColor:"red"}}>
-      <FlatList data={dummy}
-       renderItem={ ({item}) => <SlideItem item={item}/>} 
-        horizontal
-        pagingEnabled
-        snapToAlignment="center"
-        showsHorizontalScrollIndicator = {false}
-         onScroll={handleOnscroll} 
-       onViewableItemsChanged={handleOnviewAbleItemChange}
-       viewabilityConfig={viewabilityConfig}
-         />
+    const renderItem = ({item }) => {
+        let imageStyle = {
+            width: item.category === 'Popular Brand' ? 100 : 250,
+            height: item.category === 'Popular Brand' ? 100 : 120,
+            borderRadius: item.category === 'Popular Brand' ? 5 : 10,
+        };
 
-          <Pagination data={dummy} scrollX={scrollX} index={index}/>
-    </SafeAreaView>
-    )
+        return (
+            <View style={{ margin: 5 }}>
+                <Image
+                    source={{ uri: `${MovieDBImageRetrieval}${item.poster_path}` }}
+                    style={imageStyle}
+                />
+            </View>
+        );
+    };
+
+    if (isLoading) return <ActivityIndicator style = {{alignSelf:"center", top:"100%", height:20, width:40}}/>
+    if (error) return <Text style={{ color: "#fff" }}>Oops!</Text>;
+
+    return (
+            <FlatList
+                data={updatedSec}
+                ListHeaderComponent={ () => <FlatlistHeader data={data}/> }
+                renderItem={({ item }) => (
+                    <View style={{marginHorizontal: 10 , top:60, gap:10}}>
+                        <Text style={{ color: "#fff", marginBottom:5, top:14,  left:10}}>{item.category}</Text>
+                        <FlatList
+                            horizontal
+                            data={item.data}
+                            renderItem={({ item }) => renderItem({ item})}
+                            keyExtractor={(item, index) => index.toString()}
+                        />
+                    </View>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+            />
+    );
 }
 
-export default Home;
 
 const styles = StyleSheet.create({
-  container:{
-    height,
-    width, 
-    alignItems:"center"
-  },
-  img:{
-    flex:0.6,
-    width:"100%",
-    
-
-  },
-  title:{
-   color:"#fff",
-
-  },
-  desc:{
-   
-color:"#fff"
-  },
-  content:{
-    alignItems:"center"
-  },
-  dot:{
-   
-   height:5,
-   borderRadius:17,
-   backgroundColor:"#fff",
-   opacity:0.5,
-   marginHorizontal:3
- 
-  },
-  activeDot:{
-  backgroundColor:"#fff",
-  opacity:1,
-  width:8,
-  height:8,
- 
-  
-  
- 
-  },
-  pageCont:{
-  width:"100%",
-  flexDirection:"row",
- position:"absolute",
- bottom:200,
-justifyContent:"center",
-alignItems:"center"
-  },
+    container:{
+        justifyContent:"center",
+        alignItems:"center"
+    }
 })
+export default Home

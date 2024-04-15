@@ -14,13 +14,34 @@ import SearchScreen from '@/src/screens/searchScreen';
 import DownloadScreen from '@/src/screens/downloadScreen';
 import ProfileScreen from '@/src/screens/profileScreen';
 import Header from '@/src/components/homeHeader';
+import { createStackNavigator } from '@react-navigation/stack';
+import PickerScreen from '../(innerNavigation)';
+import HeaderLeftComp from '../(innerNavigation)/head';
+
+
+
+
+
+const Stack = createStackNavigator()
+
+const  _layout = () => {
+  return(
+  <Stack.Navigator screenOptions={{ headerTitle:""}}>
+    <Stack.Screen name = "picker" component = {PickerScreen} options={{
+      headerLeft: () => <HeaderLeftComp/>,
+    }}/>
+  </Stack.Navigator>
+  )
+}
+
+
 
 const Tab = createBottomTabNavigator();
 
 export default function TabLayout(){
    return(
 <Tab.Navigator  screenOptions={{headerShown:false, 
-tabBarStyle:{borderRadius:50,  position: "absolute", backgroundColor:"#403d39", marginBottom:20, opacity:0.8, width:"95%",height:70 },
+tabBarStyle:{borderRadius:50,  position: "absolute",backgroundColor: 'rgba(52, 52, 52, 0.8)', marginBottom:20, opacity:0.8, width:"95%",height:60},
 
 
 }}>

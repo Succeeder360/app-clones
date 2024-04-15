@@ -1,116 +1,111 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, FlatList, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import { View,  FlatList, Image, Animated, Dimensions} from 'react-native';
+import { MovieDBImageRetrieval } from '../services/retrivaImg';
+import Pagination from './pagination';
+import { scrollFunction } from './onscroll';
+import { dataTagSymbol } from '@tanstack/react-query';
 
-const HeaderComp = ({ data }:any) => {
+
+
+
+const {width} = Dimensions.get("window");
+
+const FlatlistHeader = ({data}) => {
+  const [index, setIndex] = useState(0)
+  const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef:any = useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   useEffect(() => {
     if (data && data.length > 0) {
       const intervalId = setInterval(() => {
-        const nextPage = (currentPage + 1) % data.length;
-        flatListRef.current.scrollToIndex({ animated: true, index: nextPage });
-        setCurrentPage(nextPage);
-      }, 3000); 
-      
+        if (!isScrolling) {
+          let nextPage = (currentPage + 1) % data.length;
+          if (nextPage === 0) {
+            setCurrentPage(0); // Reset currentPage to 0 if it's the last index
+          } else {
+            setCurrentPage(nextPage);
+          }
+          flatListRef.current.scrollToIndex({ animated: true, index: nextPage });
+        }
+      }, 4000);
+
       return () => clearInterval(intervalId);
     }
-  }, [currentPage, data]);
+  }, [currentPage, data, isScrolling]);
+  
+  const newData = data.slice(0,4)
 
-  const renderItem = ({ item }) => (
-    <View style={styles.itemContainer}>
-      <ImageBackground source={{uri:item.img}} resizeMode="cover" style={styles.img}>
-        
-      </ImageBackground>
-    </View>
-  );
-
-  const renderDot = (index) => {
-    return (
-      <TouchableOpacity
-        key={index}
-        style={[styles.dot, currentPage === index && styles.activeDot]}
-        onPress={ () => {
-          flatListRef.current.scrollToIndex({ animated: true, index });
-          setCurrentPage(index);
-        }}
-      />
-    );
-  };
-
-  if (!data || data.length === 0) {
-    return null; 
+    const handleOnscroll = event => {
+      Animated.event(
+          [{
+              nativeEvent:{
+                  contentOffset:{
+                      x:scrollX
+                  }
+              }
+          }
+      ],
+         
+  {
+      useNativeDriver:false
   }
+         
+      )(event)
+  }
+  
+      const handleViewabilityConfg = useRef({
+          itemVisiblePercentThreshold:50 
+      }).current;
+  
+      const handleViewAbleItemChange = useRef(({viewableItems}) => {
+          if (viewableItems.length > 0) {
+            setIndex(viewableItems[0].index);
+          }
+        }).current;
+  
+        const handleScrollEnd = () => {
+          setIsScrolling(false); // Set scrolling flag to false when manual scrolling ends
+        };    
+
+
+   
+ 
+  const renderItem = ({item}) => (
+    <View>
+      <Image
+          source={{ uri: `${MovieDBImageRetrieval}${item.poster_path}` }}
+          style={{ height: 400, width, top:10}}
+      />
+      </View>
+  );
 
   return (
-    <View>
+    <>
       <FlatList
-        ref={flatListRef}
-        data={data}
-        renderItem={renderItem}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item.id.toString()}
-        onScrollToIndexFailed={(info) => {
-          const wait = new Promise((resolve) => setTimeout(resolve, 500));
-          wait.then(() => {
-            flatListRef.current?.scrollToIndex({
-              index: info.index,
-              animated: true,
-            });
-          });
-        }}
-        onViewableItemsChanged={({ viewableItems } : any) => {
-          if (viewableItems.length > 0) {
-            setCurrentPage(viewableItems[0].index);
-          }
+      showsHorizontalScrollIndicator = {false}
+      pagingEnabled 
+  
+      snapToAlignment='center'
+          horizontal
+        
+          ref={flatListRef}
+          onScroll={handleOnscroll}
+          viewabilityConfig={handleViewabilityConfg}
+          onViewableItemsChanged={handleViewAbleItemChange}
+          data={data}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index.toString()}
+          onScrollToIndexFailed={({index}) => {
+            scrollFunction({index}, flatListRef);
         }}
       />
-      <View style={styles.pagination}>{data.map((_ : any, index : number) => renderDot(index))}</View>
-    </View>
+      <Pagination data={data} scrollX={scrollX} index={index}/>
+      </>
   );
-};
-
-const styles = StyleSheet.create({
-  itemContainer: {
-    backgroundColor: 'blue',
-  },
-  img:{
-    flex:1,
-   height:300,
-   width:430
-  
-},
-  
-  title: {
-    color: '#fff',
-    fontWeight: '900',
-  },
-  desc: {
-    color: '#fff',
-    fontWeight: '300',
-  },
-  pagination: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: '#ccc',
-    marginHorizontal: 5,
-  },
-  activeDot: {
-    backgroundColor: 'blue',
-  },
-});
-
-export default HeaderComp;
+}
 
 
-
+export default FlatlistHeader;
 

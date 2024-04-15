@@ -1,18 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
-import {View, Text, StyleSheet, Image, FlatList} from "react-native"
+import {View, Text, StyleSheet, Image, FlatList, ActivityIndicator, ScrollView} from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context";
 import { fetchTopRatedMovies } from "../services/movieApi";
 import { MovieDBImageRetrieval } from "../services/retrivaImg";
+import SharpHeaders from "./flatlistHeader";
 
 
+  const AnotherTrial = () => {
 
-const AnotherTrial = () => {
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["movies"],
+        queryFn: fetchTopRatedMovies
+    });
 
-  const {data, isLoading, error} = useQuery({
-        queryKey:["movies"],
-        queryFn:fetchTopRatedMovies
-    })
-
+  
     const sec = [
         {
         category:"Showmax Originals",
@@ -116,25 +117,62 @@ const AnotherTrial = () => {
          
         }
       ]
-    
 
-   
-  
-    if(isLoading) return <Text style = {{color:"#fff"}}>loading...</Text>
-    if(error) return <Text style = {{color:"#fff"}}>Opps</Text>
+    const renderItem = ({item,category }) => {
+        let imageStyle = {
+            width: category === 'Popular Brand' ? 100 : 250,
+            height: category === 'Popular Brand' ? 100 : 120,
+            borderRadius: category === 'Popular Brand' ? 5 : 10,
+        };
+
+        return (
+            <View style={{ margin: 5 }}>
+               
+                <Image
+                    source={{ uri: `${MovieDBImageRetrieval}${item.poster_path}` }}
+                    style={imageStyle}
+                />
+            </View>
+        );
+    };
+
+ 
+
+    if (isLoading) return <ActivityIndicator style = {{alignSelf:"center", top:"100%", height:20, width:40}}/>
+    if (error) return <Text style={{ color: "#fff" }}>Oops!</Text>;
+
+     const newD = data.slice(3,7)
 
     return (
-        <SafeAreaView style = {styles.container}>
-         <FlatList 
-    
-    data={sec}
-    renderItem={({item}) => (
-        <View style={{ marginHorizontal: 10 }}>
-            <Text style={{color: "#fff", marginBottom: 5}}>{item.category}</Text>
+        <SafeAreaView style={styles.container}>
+             
             <FlatList
-            horizontal
-                data={item.data}
-                renderItem={({item: movieOrSeries}) => (
+                data={sec}
+                ListHeaderComponent={() => <SharpHeaders data={newD}/>}
+                renderItem={({ item }) => (
+                    <View style={{ marginHorizontal: 10 , top:60, gap:10}}>
+                        
+                        <Text style={{ color: "#fff", marginBottom:5, top:14,  left:10}}>{item.category}</Text>
+                        <FlatList
+                        
+                            horizontal
+                            data={item.data}
+                            renderItem={({ item }) => renderItem({ item, category: item.category })}
+                            keyExtractor={(item, index) => index.toString()}
+                        />
+                    </View>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+            
+            />
+        </SafeAreaView>
+    );
+}
+
+ /**
+
+
+    renderItem={({ item: movieOrSeries}) => (
                     <View style={{ marginBottom: 10 }}>
                        
                         <Image
@@ -143,18 +181,9 @@ const AnotherTrial = () => {
                         />
                     </View>
                 )}
-                keyExtractor={(movieOrSeries) => movieOrSeries.id.toString()}
-            />
-        </View>
-    )}
-    keyExtractor={(item, index) => index.toString()}
-/>
-
-        </SafeAreaView>
-    );
-}
 
 
+*/
 
 const styles = StyleSheet.create({
     container:{

@@ -1,24 +1,104 @@
 
-export const dummy = [
-    {
-    img: "https://images.unsplash.com/photo-1707343848873-d6a834b5f9b9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title:"Biograpghy",
-    desc: "watch now and enjoy"
+export const Sec = [
+  {
+  category:"Showmax Originals",
+    data:null,
+    mediaType: "series"
+    
   },
   {
-    img: "https://images.unsplash.com/photo-1707343848873-d6a834b5f9b9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title:"Biograpghy",
-    desc: "watch now and enjoy"
+   
+   category:" West Home Trending",
+    data:null,
+    mediaType: "series"
   },
   {
-    img: "https://images.unsplash.com/photo-1707343848873-d6a834b5f9b9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title:"Biograpghy",
-    desc: "watch now and enjoy"
+   
+    category:"Recently Added Series",
+    data:null,
+    mediaType: "series"
+    
   },
   {
-    img: "https://images.unsplash.com/photo-1707343848873-d6a834b5f9b9?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    title:"Biograpghy",
-    desc: "watch now and enjoy"
+ 
+    category:"Recently Added Movies",
+    data:null,
+    mediaType: "movies"
+    
   },
-  ]
-  
+  {
+ 
+    category:"Must See Premier",
+    data:null,
+    mediaType: "sport"
+   
+  },
+  {
+ 
+    category:"New Releases",
+    data:null,
+    mediaType: "series"
+    
+  },
+  {
+ 
+    category:"Top African Movies",
+    data:null,
+    mediaType: "series"
+  },
+
+  {
+    category:"Award-Winnig Films",
+    data:null,
+    mediaType: "series"
+  },
+  {
+ 
+    category:"Horror",
+    data:null,
+    mediaType: "movies"
+    
+  },
+  {
+ 
+    category:"Best of Rotten Tomatos",
+    data:null,
+    mediaType: "movies"
+   
+  },
+  {
+ 
+    category:"Best of Africa",
+    data:null,
+    mediaType: "movies"
+   
+  },
+  {
+ 
+    category:"Showmax Collections",
+    data:null,
+    mediaType: "series"
+   
+  },
+  {
+ 
+    category:"Thrills $ Chills",
+    data:null,
+    mediaType: "series"
+   
+  },
+  {
+ 
+    category:"Drama",
+    data:null,
+    mediaType: "movies"
+   
+  },
+  {
+ 
+    category:"Popular Brand",
+    data:null,
+    mediaType: "movies"
+   
+  }
+]

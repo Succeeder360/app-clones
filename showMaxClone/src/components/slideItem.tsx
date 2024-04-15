@@ -16,23 +16,17 @@ const SlideItem = ({data}) => {
     const [isScrolling, setIsScrolling] = useState(false);
 
     useEffect(() => {
-        if (data && data.length > 0) {
-          const intervalId = setInterval(() => {
-            if (!isScrolling) {
-              let nextPage = (currentPage + 1) % data.length;
-              if (nextPage === 0) {
-                setCurrentPage(0); // Reset currentPage to 0 if it's the last index
-              } else {
-                setCurrentPage(nextPage);
-              }
-              flatListRef.current.scrollToIndex({ animated: true, index: nextPage });
-            }
-          }, 4000);
+      if (data && data.length > 0) {
+        const intervalId = setInterval(() => {
+          const nextPage = (currentPage + 1) %  data.length;
+          flatListRef.current.scrollToIndex({ animated: true, index: nextPage });
+          setCurrentPage(nextPage);
+        }, 1000); 
+        
+        return () => clearInterval(intervalId);
+      }
+    }, [currentPage, data]);
     
-          return () => clearInterval(intervalId);
-        }
-      }, [currentPage, data, isScrolling]);
-
 
       const renderItem = (({item}) => (
         <View>
@@ -77,7 +71,6 @@ const SlideItem = ({data}) => {
     return(
         <>
       <FlatList data={data} renderItem={renderItem}
-      horizontal 
       pagingEnabled 
       onScrollEndDrag={handleScrollEnd}
       ref={flatListRef}
