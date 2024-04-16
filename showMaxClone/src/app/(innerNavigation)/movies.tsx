@@ -1,17 +1,19 @@
 
-import {View, Text, Pressable} from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context";
+import { QueryClient} from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+import Movie from "@/src/components/movie";
 
 
-const Movie = () => {
-   
+const Movies = () => {
+     
+const queryClient = new QueryClient()
+
     return (
-        <SafeAreaView>
-            
-            <Text style = {{color:"#fff"}}>Movie Screen</Text>
-           
-        </SafeAreaView>
+      <QueryClientProvider client={queryClient}>
+        <Movie/>
+        </QueryClientProvider>
+
     );
 }
 
-export default Movie;
+export default Movies;

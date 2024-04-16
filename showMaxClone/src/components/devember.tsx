@@ -10,8 +10,16 @@ import SharpHeaders from "./flatlistHeader";
 
     const { data, isLoading, error } = useQuery({
         queryKey: ["movies"],
-        queryFn: fetchTopRatedMovies
-    });
+        queryFn: fetchTopRatedMovies,
+        
+
+
+    },
+
+  
+  );
+   
+
 
   
     const sec = [
@@ -141,14 +149,14 @@ import SharpHeaders from "./flatlistHeader";
     if (isLoading) return <ActivityIndicator style = {{alignSelf:"center", top:"100%", height:20, width:40}}/>
     if (error) return <Text style={{ color: "#fff" }}>Oops!</Text>;
 
-     const newD = data.slice(3,7)
+
 
     return (
         <SafeAreaView style={styles.container}>
              
             <FlatList
                 data={sec}
-                ListHeaderComponent={() => <SharpHeaders data={newD}/>}
+                ListHeaderComponent={() => <SharpHeaders data={data}/>}
                 renderItem={({ item }) => (
                     <View style={{ marginHorizontal: 10 , top:60, gap:10}}>
                         

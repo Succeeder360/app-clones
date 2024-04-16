@@ -3,8 +3,7 @@ import { useNavigation } from "@react-navigation/native"
 import { useState } from "react"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { Modal } from "react-native"
-const im2 ="../../assets/images/show.jpg"
-const im = "https://images.unsplash.com/photo-1637806631554-bcfe2c618058?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+import { Stack } from "expo-router"
 
 const HeaderLeftComp = ({title}:{title:string}) => {
   const navigation = useNavigation()
@@ -14,14 +13,15 @@ const HeaderLeftComp = ({title}:{title:string}) => {
 
   const toggleModal = () => {
     setShowModal(!showModal); 
-  };
+};  
  
   return (
+  
     <View style={{ flexDirection: "row", gap: 25,}}>
       <MaterialCommunityIcons name='alpha-s-box' size={25} color={"red"} />
       <Pressable
         style={{ flexDirection: "row", alignItems: 'center' }}
-        onPress={() => navigation.navigate("tv")}
+        onPress={() => navigation.navigate("index")}
       >
         <Text style={{ color: "#fff", top: 3 }}>{title}</Text>
         <MaterialCommunityIcons
@@ -53,6 +53,7 @@ const HeaderLeftComp = ({title}:{title:string}) => {
         </View>
       </Modal>
     </View>
+  
   )
 }
 

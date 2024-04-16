@@ -11,7 +11,7 @@ import { Link } from 'expo-router';
 
 const Header = () => {
 
-  const routs = ['movies', 'tv', 'sport','mystuff']
+  const routs = ['movies', 'tv', 'sport','my stuff']
   
     return (
         <View>

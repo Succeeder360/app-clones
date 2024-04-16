@@ -3,7 +3,7 @@ import { View,  FlatList, Image, Animated, Dimensions} from 'react-native';
 import { MovieDBImageRetrieval } from '../services/retrivaImg';
 import Pagination from './pagination';
 import { scrollFunction } from './onscroll';
-import { dataTagSymbol } from '@tanstack/react-query';
+
 
 
 
@@ -16,26 +16,25 @@ const FlatlistHeader = ({data}) => {
   const flatListRef:any = useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
+ const newd = data.slice(3,7)
 
   useEffect(() => {
-    if (data && data.length > 0) {
+    if (newd && newd.length > 0) {
       const intervalId = setInterval(() => {
         if (!isScrolling) {
-          let nextPage = (currentPage + 1) % data.length;
-          if (nextPage === 0) {
-            setCurrentPage(0); // Reset currentPage to 0 if it's the last index
-          } else {
+          let nextPage = (currentPage + 1) % newd.length
+         
             setCurrentPage(nextPage);
-          }
+          
           flatListRef.current.scrollToIndex({ animated: true, index: nextPage });
         }
       }, 4000);
 
       return () => clearInterval(intervalId);
     }
-  }, [currentPage, data, isScrolling]);
+  }, [currentPage, newd, isScrolling]);
   
-  const newData = data.slice(0,4)
+
 
     const handleOnscroll = event => {
       Animated.event(
@@ -61,17 +60,17 @@ const FlatlistHeader = ({data}) => {
   
       const handleViewAbleItemChange = useRef(({viewableItems}) => {
           if (viewableItems.length > 0) {
-            setIndex(viewableItems[0].index);
+            const newIndex = viewableItems[0].index;
+            setIndex(newIndex);
+            setCurrentPage(newIndex)
           }
         }).current;
   
         const handleScrollEnd = () => {
-          setIsScrolling(false); // Set scrolling flag to false when manual scrolling ends
+          setIsScrolling(false); 
         };    
-
-
-   
  
+
   const renderItem = ({item}) => (
     <View>
       <Image
@@ -89,19 +88,19 @@ const FlatlistHeader = ({data}) => {
   
       snapToAlignment='center'
           horizontal
-        
           ref={flatListRef}
           onScroll={handleOnscroll}
+          onScrollEndDrag={handleScrollEnd}
           viewabilityConfig={handleViewabilityConfg}
           onViewableItemsChanged={handleViewAbleItemChange}
-          data={data}
+          data={newd}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
           onScrollToIndexFailed={({index}) => {
             scrollFunction({index}, flatListRef);
         }}
       />
-      <Pagination data={data} scrollX={scrollX} index={index}/>
+      <Pagination data={newd} scrollX={scrollX} index={index}/>
       </>
   );
 }
