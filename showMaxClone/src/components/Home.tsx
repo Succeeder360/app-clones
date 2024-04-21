@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import {View, Text, StyleSheet, Image, FlatList, ActivityIndicator} from "react-native"
+import {View, Text, StyleSheet, Image, FlatList, ActivityIndicator, Pressable} from "react-native"
 import { fetchTopRatedMovies } from "../services/movieApi";
 import { MovieDBImageRetrieval } from "../services/retrivaImg";
 import { Sec } from "./dummy";
 import FlatlistHeader from "./flatlistHeader";
-
+import { Link } from "expo-router";
 
   const Home = () => {
 
@@ -20,7 +20,9 @@ import FlatlistHeader from "./flatlistHeader";
       };
   });   
 
-    const renderItem = ({item }) => {
+
+
+    const renderItem = ({item}) => {
         let imageStyle = {
             width: item.category === 'Popular Brand' ? 100 : 250,
             height: item.category === 'Popular Brand' ? 100 : 120,
@@ -29,10 +31,23 @@ import FlatlistHeader from "./flatlistHeader";
 
         return (
             <View style={{ margin: 5 }}>
+                <Link href={{
+                      pathname:"/(innerNavigation)/moviedetails",
+                      params:{   
+                        overView:item.overview,
+                        title:item.title,
+                        release:item.release_date,
+                        img:item.poster_path,
+                        id:item.id
+                      }
+                }}   asChild>
+                    <Pressable>
                 <Image
                     source={{ uri: `${MovieDBImageRetrieval}${item.poster_path}` }}
                     style={imageStyle}
                 />
+                </Pressable>
+                </Link>
             </View>
         );
     };

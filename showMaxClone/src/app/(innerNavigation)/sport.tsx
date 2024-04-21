@@ -1,18 +1,18 @@
-import { useNavigation } from "expo-router";
-import {View, Text, Pressable} from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context";
 
-
+import { QueryClient} from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+import Tvs from "@/src/components/tvs";
 
 
 const Sport = () => {
-    const navigation = useNavigation()
+     
+const queryClient = new QueryClient()
+
     return (
-        <SafeAreaView>
-            
-            <Text style = {{color:"#fff"}}>Sports</Text>
-           
-        </SafeAreaView>
+      <QueryClientProvider client={queryClient}>
+        <Tvs/>
+        </QueryClientProvider>
+
     );
 }
 

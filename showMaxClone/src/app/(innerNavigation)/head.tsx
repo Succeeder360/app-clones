@@ -4,7 +4,7 @@ import { useState } from "react"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { Modal } from "react-native"
 import { Stack } from "expo-router"
-
+import { Link } from "expo-router"
 const HeaderLeftComp = ({title}:{title:string}) => {
   const navigation = useNavigation()
   const [showModal, setShowModal] = useState(false); 
@@ -41,9 +41,11 @@ const HeaderLeftComp = ({title}:{title:string}) => {
           <View style={{backgroundColor: 'rgba(0, 0, 0, 0.5)' , padding: 20, borderRadius: 10, flex:1, width: '90%', maxHeight: '90%'}}>
            
             {items.map((item, index) => (
+              <Link href={`/(innerNavigation)/${item}`}  asChild>
               <Pressable   key={index} onPress={() => { /* Handle item selection */ }}>
                 <Text style={{ color:"red" , padding:5}}>{item}</Text>
               </Pressable>
+              </Link>
             ))}
 
            <Pressable    onPress={toggleModal} style={{ marginBottom: 10, }}>
